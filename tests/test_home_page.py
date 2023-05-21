@@ -2,8 +2,8 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+from urls import Urls
 from pages.home_page import HomePage
-from pages.order_page import OrderPage
 from locators.home_page_locators import HomePageLocators
 
 
@@ -41,8 +41,8 @@ class TestHomePage:
 
         home_page.click_top_order_button()
 
-        WebDriverWait(self.driver, 10).until(expected_conditions.url_changes(HomePage.url))
-        assert self.driver.current_url == OrderPage.url
+        WebDriverWait(self.driver, 10).until(expected_conditions.url_changes(Urls.home_page))
+        assert self.driver.current_url == Urls.order_page
 
     def test_bottom_order_button_click_navigates_on_orders_page(self):
         home_page = HomePage(self.driver)
@@ -50,5 +50,5 @@ class TestHomePage:
 
         home_page.click_bottom_order_button()
 
-        WebDriverWait(self.driver, 10).until(expected_conditions.url_changes(HomePage.url))
-        assert self.driver.current_url == OrderPage.url
+        WebDriverWait(self.driver, 10).until(expected_conditions.url_changes(Urls.home_page))
+        assert self.driver.current_url == Urls.order_page

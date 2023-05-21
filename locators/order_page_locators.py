@@ -1,6 +1,9 @@
 from selenium.webdriver.common.by import By
 
 class OrderPageLocators:
+    yandex_page_link = [By.XPATH, './/a[@href=\'//yandex.ru\']']
+    scooter_page_link = [By.XPATH, './/a[@href=\'/\']']
+
     name_textbox = [By.XPATH, './/input[@placeholder=\'* Имя\']']
     family_name_textbox = [By.XPATH, './/input[@placeholder=\'* Фамилия\']']
     address_textbox = [By.XPATH, './/input[@placeholder=\'* Адрес: куда привезти заказ\']']

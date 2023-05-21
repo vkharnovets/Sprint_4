@@ -1,10 +1,11 @@
+from urls import Urls
 from locators.home_page_locators import HomePageLocators
 from pages.base_page import BasePage
 
 
 class HomePage(BasePage):
     def __init__(self, driver):
-        super().__init__(driver, 'https://qa-scooter.praktikum-services.ru/')
+        super().__init__(driver, Urls.home_page)
 
     def click_top_order_button(self):
         self.driver.find_element(*HomePageLocators.top_order_button).click()
