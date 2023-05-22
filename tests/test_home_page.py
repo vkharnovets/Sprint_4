@@ -1,4 +1,5 @@
 import pytest
+import allure
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
@@ -18,19 +19,21 @@ class TestHomePage:
     def teardown_class(cls):
         cls.driver.quit()
 
-    @pytest.mark.parametrize('question_locator, answer_locator', [(HomePageLocators.question_1_heading, HomePageLocators.question_1_answer),
-                                                                  (HomePageLocators.question_2_heading, HomePageLocators.question_2_answer),
-                                                                  (HomePageLocators.question_3_heading, HomePageLocators.question_3_answer),
-                                                                  (HomePageLocators.question_4_heading, HomePageLocators.question_4_answer),
-                                                                  (HomePageLocators.question_5_heading, HomePageLocators.question_5_answer),
-                                                                  (HomePageLocators.question_6_heading, HomePageLocators.question_6_answer),
-                                                                  (HomePageLocators.question_7_heading, HomePageLocators.question_7_answer),
-                                                                  (HomePageLocators.question_8_heading, HomePageLocators.question_8_answer)])
-    def test_correct_answer_is_shown_on_question_click(self, question_locator, answer_locator):
+    @allure.title('Проверка выпадающего списка в разделе «Вопросы о важном»')
+    @allure.description('Нажимаем на стрелочку рядом с вопросом и проверяем, что открывается соответствующий текст')
+    @pytest.mark.parametrize('question_description, question_locator, answer_locator', [('Вопрос #1 из списка', HomePageLocators.question_1_heading, HomePageLocators.question_1_answer),
+                                                                  ('Вопрос #2 из списка', HomePageLocators.question_2_heading, HomePageLocators.question_2_answer),
+                                                                  ('Вопрос #3 из списка', HomePageLocators.question_3_heading, HomePageLocators.question_3_answer),
+                                                                  ('Вопрос #4 из списка', HomePageLocators.question_4_heading, HomePageLocators.question_4_answer),
+                                                                  ('Вопрос #5 из списка', HomePageLocators.question_5_heading, HomePageLocators.question_5_answer),
+                                                                  ('Вопрос #6 из списка', HomePageLocators.question_6_heading, HomePageLocators.question_6_answer),
+                                                                  ('Вопрос #7 из списка', HomePageLocators.question_7_heading, HomePageLocators.question_7_answer),
+                                                                  ('Вопрос #8 из списка', HomePageLocators.question_8_heading, HomePageLocators.question_8_answer)])
+    def test_correct_answer_is_shown_on_question_click(self, question_description, question_locator, answer_locator):
         home_page = HomePage(self.driver)
         home_page.load()
 
-        home_page.click_question(question_locator)
+        home_page.click_question(question_locator, question_description)
         is_answer_visible = home_page.is_answer_visible(answer_locator)
 
         assert is_answer_visible is True

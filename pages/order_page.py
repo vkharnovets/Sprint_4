@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -10,12 +11,14 @@ class OrderPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver, Urls.order_page)
 
+    @allure.step('Выбираем станцию метро')
     def choose_metro(self):
         self.driver.find_element(*OrderPageLocators.metro_combobox).click()
         WebDriverWait(self.driver, 10).until(
             expected_conditions.visibility_of_element_located(OrderPageLocators.metro_value))
         self.driver.find_element(*OrderPageLocators.metro_value).click()
 
+    @allure.step('Проходим первый экран визарда')
     def pass_first_step(self, order_data):
         self.driver.find_element(*OrderPageLocators.name_textbox).send_keys(order_data['name'])
         self.driver.find_element(*OrderPageLocators.family_name_textbox).send_keys(order_data['family_name'])
@@ -25,18 +28,21 @@ class OrderPage(BasePage):
 
         self.driver.find_element(*OrderPageLocators.next_button).click()
 
+    @allure.step('Выбираем дату')
     def choose_date(self):
         self.driver.find_element(*OrderPageLocators.calendar_control).click()
         WebDriverWait(self.driver, 10).until(
             expected_conditions.visibility_of_element_located(OrderPageLocators.calendar_value))
         self.driver.find_element(*OrderPageLocators.calendar_value).click()
 
+    @allure.step('Выбираем срок аренжы')
     def choose_period(self):
         self.driver.find_element(*OrderPageLocators.period_combobox).click()
         WebDriverWait(self.driver, 10).until(
             expected_conditions.visibility_of_element_located(OrderPageLocators.period_value))
         self.driver.find_element(*OrderPageLocators.period_value).click()
 
+    @allure.step('Проходим второй экран визарда')
     def pass_second_step(self, order_data):
         self.choose_date()
         self.choose_period()
@@ -44,15 +50,19 @@ class OrderPage(BasePage):
         self.driver.find_element(*OrderPageLocators.comment_textbox).send_keys(order_data['comment'])
         self.driver.find_element(*OrderPageLocators.order_button).click()
 
+    @allure.step('Жмем кнопку подтверждения заказа')
     def confirm_order(self):
         self.driver.find_element(*OrderPageLocators.confirm_order_button).click()
 
+    @allure.step('Проверяем, что заказ подтвержден')
     def is_order_confirmed(self):
         return len(self.driver.find_elements(*OrderPageLocators.order_confirmation)) > 0
 
+    @allure.step('Кликаем на лого \'Самокат\'')
     def click_scooter_link(self):
         self.driver.find_element(*OrderPageLocators.scooter_page_link).click()
 
+    @allure.step('Кликаем на лого \'Яндекс\'')
     def click_yandex_link(self):
         self.driver.find_element(*OrderPageLocators.yandex_page_link).click()
 

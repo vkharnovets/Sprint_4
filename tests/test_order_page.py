@@ -1,4 +1,5 @@
 import pytest
+import allure
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
@@ -17,13 +18,8 @@ class TestOrderPage:
     def teardown_class(cls):
         cls.driver.quit()
 
-        order_data = {
-            'name': 'Виктория',
-            'family_name': 'Харновец',
-            'address': 'Ленина 12-1-34',
-            'phone': '+79061234567',
-            'comment': 'Заберу у подъезда'
-        }
+    @allure.title('Проверка позитивного сценария размещения заказа')
+    @allure.description('Проходим визард размещения заказа по шагам, используя тестовые данные из параметров теста')
     @pytest.mark.parametrize('order_data', [
         {
             'name': 'Виктория',
@@ -49,6 +45,8 @@ class TestOrderPage:
 
         assert order_page.is_order_confirmed() is True
 
+    @allure.title('Проверка перехода на Яндекс.Дзен по ссылке')
+    @allure.description('Кликаем по логотипу Яндекс и ожидаем, что в новом окне откроется Яндекс.Дзен')
     def test_yandex_link_click_navigates_on_dzen_in_new_tab(self):
         order_page = OrderPage(self.driver)
         order_page.load()
@@ -61,6 +59,8 @@ class TestOrderPage:
         WebDriverWait(self.driver, 10).until(expected_conditions.url_to_be(Urls.dzen_page))
         assert self.driver.current_url == Urls.dzen_page
 
+    @allure.title('Проверка перехода на главную страницу при нажатии на логотип \'Самокат\'')
+    @allure.description('Кликаем по логотипу \'Самокат\' и ожидаем, что откроется главная страница приложения')
     def test_scooter_link_click_navigates_on_home_page(self):
         order_page = OrderPage(self.driver)
         order_page.load()
