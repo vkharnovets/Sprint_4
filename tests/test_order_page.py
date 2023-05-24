@@ -1,42 +1,19 @@
 import pytest
 import allure
-from selenium import webdriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from urls import Urls
+from test_data.orders import Orders
 from pages.order_page import OrderPage
-
+from pages.home_page import HomePage
+from locators.dzen_page_locators import DzenPageLocators
 
 class TestOrderPage:
-    driver = None
-
-    @classmethod
-    def setup_class(cls):
-        cls.driver = webdriver.Firefox()
-
-    @classmethod
-    def teardown_class(cls):
-        cls.driver.quit()
-
     @allure.title('Проверка позитивного сценария размещения заказа')
     @allure.description('Проходим визард размещения заказа по шагам, используя тестовые данные из параметров теста')
-    @pytest.mark.parametrize('order_data', [
-        {
-            'name': 'Виктория',
-            'family_name': 'Харновец',
-            'address': 'Ленина 12-1-34',
-            'phone': '+79061234567',
-            'comment': 'Заберу у подъезда'
-        },
-        {
-            'name': 'Василий',
-            'family_name': 'Пупкин',
-            'address': 'Комсомола 11-2-65',
-            'phone': '+79261234567',
-            'comment': 'Встретит бабушка'
-        }])
-    def test_successful_order_creation(self, order_data):
-        order_page = OrderPage(self.driver)
+    @pytest.mark.parametrize('order_data', [Orders.order_for_vika, Orders.order_for_vasya])
+    def test_successful_order_creation(self, driver, order_data):
+        order_page = OrderPage(driver)
 
         order_page.load()
         order_page.pass_first_step(order_data)
@@ -47,25 +24,30 @@ class TestOrderPage:
 
     @allure.title('Проверка перехода на Яндекс.Дзен по ссылке')
     @allure.description('Кликаем по логотипу Яндекс и ожидаем, что в новом окне откроется Яндекс.Дзен')
-    def test_yandex_link_click_navigates_on_dzen_in_new_tab(self):
-        order_page = OrderPage(self.driver)
+    def test_yandex_link_click_navigates_on_dzen_in_new_tab(self, driver):
+        order_page = OrderPage(driver)
         order_page.load()
 
         order_page.click_yandex_link()
 
-        browser_tabs = self.driver.window_handles
-        self.driver.switch_to.window(browser_tabs[1])
+        browser_tabs = driver.window_handles
+        driver.switch_to.window(browser_tabs[1])
 
-        WebDriverWait(self.driver, 10).until(expected_conditions.url_to_be(Urls.dzen_page))
-        assert self.driver.current_url == Urls.dzen_page
+        order_page.wait_url_changed_to(Urls.dzen_page)
+        WebDriverWait(driver, order_page.MAXIMUM_WAIT_TIME_SECS).until(
+            expected_conditions.visibility_of_element_located(DzenPageLocators.FIND_BUTTON))
+
+        assert driver.current_url == Urls.dzen_page
 
     @allure.title('Проверка перехода на главную страницу при нажатии на логотип \'Самокат\'')
     @allure.description('Кликаем по логотипу \'Самокат\' и ожидаем, что откроется главная страница приложения')
-    def test_scooter_link_click_navigates_on_home_page(self):
-        order_page = OrderPage(self.driver)
+    def test_scooter_link_click_navigates_on_home_page(self, driver):
+        order_page = OrderPage(driver)
         order_page.load()
 
         order_page.click_scooter_link()
+        order_page.wait_url_changed_to(Urls.home_page)
 
-        WebDriverWait(self.driver, 10).until(expected_conditions.url_changes(Urls.order_page))
-        assert self.driver.current_url == Urls.home_page
+        home_page = HomePage(driver)
+        home_page.wait_page_is_loaded()
+        assert home_page.get_url() == Urls.home_page
