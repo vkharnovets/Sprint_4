@@ -25,7 +25,8 @@ Project dependencies:
 pip install -r requirements.txt
 
 2. Allure. Project uses Allure to generate tests reports. Allure version is 2.22.0.
-To run test with Allure report generation run: allure serve allure_results
+To run test with Allure report generation run: pytest --alluredir allure_results
+To view tests execution report run: allure serve allure_results
 
 3. Java version installed with Allure is:
 openjdk 11.0.19 2023-04-18 LTS
