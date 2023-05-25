@@ -8,9 +8,6 @@ class HomePage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def load(self):
-        super().load(Urls.home_page)
-
     @allure.step('Кликаем на верхнюю кнопку \'Заказать\'')
     def click_top_order_button(self):
         self.click_element(HomePageLocators.TOP_ORDER_BUTTON)

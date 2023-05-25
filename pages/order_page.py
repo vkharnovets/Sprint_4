@@ -8,9 +8,6 @@ class OrderPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def load(self):
-        super().load(Urls.order_page)
-
     @allure.step('Выбираем станцию метро')
     def choose_metro(self):
         self.click_element(OrderPageLocators.METRO_COMBOBOX)

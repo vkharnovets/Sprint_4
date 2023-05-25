@@ -19,7 +19,6 @@ class TestHomePage:
                                           Questions.question8])
     def test_correct_answer_is_shown_on_question_click(self, driver, question):
         home_page = HomePage(driver)
-        home_page.load()
 
         home_page.click_question(question['locator'], question['text'])
         home_page.wait_element(question['answer_locator'])
@@ -30,7 +29,6 @@ class TestHomePage:
 
     def test_top_order_button_click_navigates_on_orders_page(self, driver):
         home_page = HomePage(driver)
-        home_page.load()
 
         home_page.click_top_order_button()
         home_page.wait_url_changed_to(Urls.order_page)
@@ -41,7 +39,6 @@ class TestHomePage:
 
     def test_bottom_order_button_click_navigates_on_orders_page(self, driver):
         home_page = HomePage(driver)
-        home_page.load()
 
         home_page.click_bottom_order_button()
         home_page.wait_url_changed_to(Urls.order_page)

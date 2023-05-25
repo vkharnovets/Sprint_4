@@ -13,9 +13,12 @@ class TestOrderPage:
     @allure.description('Проходим визард размещения заказа по шагам, используя тестовые данные из параметров теста')
     @pytest.mark.parametrize('order_data', [Orders.order_for_vika, Orders.order_for_vasya])
     def test_successful_order_creation(self, driver, order_data):
-        order_page = OrderPage(driver)
+        home_page = HomePage(driver)
+        home_page.click_top_order_button()
 
-        order_page.load()
+        order_page = OrderPage(driver)
+        order_page.wait_page_is_loaded()
+
         order_page.pass_first_step(order_data)
         order_page.pass_second_step(order_data)
         order_page.confirm_order()
@@ -25,8 +28,11 @@ class TestOrderPage:
     @allure.title('Проверка перехода на Яндекс.Дзен по ссылке')
     @allure.description('Кликаем по логотипу Яндекс и ожидаем, что в новом окне откроется Яндекс.Дзен')
     def test_yandex_link_click_navigates_on_dzen_in_new_tab(self, driver):
+        home_page = HomePage(driver)
+        home_page.click_top_order_button()
+
         order_page = OrderPage(driver)
-        order_page.load()
+        order_page.wait_page_is_loaded()
 
         order_page.click_yandex_link()
 
@@ -42,8 +48,11 @@ class TestOrderPage:
     @allure.title('Проверка перехода на главную страницу при нажатии на логотип \'Самокат\'')
     @allure.description('Кликаем по логотипу \'Самокат\' и ожидаем, что откроется главная страница приложения')
     def test_scooter_link_click_navigates_on_home_page(self, driver):
+        home_page = HomePage(driver)
+        home_page.click_top_order_button()
+
         order_page = OrderPage(driver)
-        order_page.load()
+        order_page.wait_page_is_loaded()
 
         order_page.click_scooter_link()
         order_page.wait_url_changed_to(Urls.home_page)
