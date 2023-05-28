@@ -32,9 +32,9 @@ class BasePage:
     def wait_url_changed_to(self, new_url):
         WebDriverWait(self.driver, self.MAXIMUM_WAIT_TIME_SECS).until(expected_conditions.url_to_be(new_url))
 
-    @allure.step('Ждем, пока на странице появится лого \'Самокат\'')
+    @allure.step('Ждем, пока на странице появится кнопка \'Статус заказа\'')
     def wait_page_is_loaded(self):
-        self.wait_element(BasePageLocators.HOME_PAGE_CONTROL)
+        self.wait_element(BasePageLocators.STATUS_BUTTON)
 
     @allure.step('Жмем кнопку согласия на Cookies, если она появилась')
     def accept_cookies(self):

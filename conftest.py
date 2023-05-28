@@ -4,6 +4,7 @@ from urls import Urls
 from pages.home_page import HomePage
 
 
+#@pytest.fixture(scope="session")
 @pytest.fixture()
 def driver():
     driver = webdriver.Firefox()

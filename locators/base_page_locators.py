@@ -2,5 +2,5 @@ from selenium.webdriver.common.by import By
 
 
 class BasePageLocators:
-    HOME_PAGE_CONTROL = [By.XPATH, './/a[@href=\'/\']']
+    STATUS_BUTTON = [By.XPATH, '(.//button[text()=\'Статус заказа\'])']
     ACCEPT_COOKIES_BUTTON = [By.ID, 'rcc-confirm-button']

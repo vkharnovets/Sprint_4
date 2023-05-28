@@ -1,4 +1,5 @@
 .idea
 geckodriver.log
-tests/.pytest_cache
+.pytest_cache
+allure_results/*.*
 tests/__pycache__

@@ -27,6 +27,8 @@ class TestHomePage:
 
         assert is_answer_visible is True and answer_text == question['answer']
 
+    @allure.title('Проверка кнопки "Заказать" вверху страницы')
+    @allure.description('Нажимаем на кнопку "Заказать" вверху страницы и проверяем, что произошел переход на страницу с заказами')
     def test_top_order_button_click_navigates_on_orders_page(self, driver):
         home_page = HomePage(driver)
 
@@ -37,6 +39,8 @@ class TestHomePage:
         order_page.wait_page_is_loaded()
         assert order_page.get_url() == Urls.order_page
 
+    @allure.title('Проверка кнопки "Заказать" внизу страницы')
+    @allure.description('Нажимаем на кнопку "Заказать" внизу страницы и проверяем, что произошел переход на страницу с заказами')
     def test_bottom_order_button_click_navigates_on_orders_page(self, driver):
         home_page = HomePage(driver)
 
